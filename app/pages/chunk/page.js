@@ -3,7 +3,10 @@ var modulesGraph = require("../../graphs/modules");
 var sortTable = require("../../sortTable");
 
 module.exports = function(id) {
-	id = parseInt(id, 10);
+	var parsedId = parseInt(id, 10);
+	if (parsedId) {
+		id = parsedId;
+	}
 	document.title = "chunk " + id;
 	$(".page").html(require("./chunk.jade")({
 		stats: app.stats,
