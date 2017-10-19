@@ -3,6 +3,7 @@ exports.mapModules = null;
 exports.mapChunks = null;
 
 function load(stats) {
+	stats.assets = stats.assets || [];
 	stats.assets.sort(function(a, b) {
 		return b.size - a.size;
 	});
@@ -20,11 +21,13 @@ function load(stats) {
 	});
 	var mapChunks = {};
 	var dependencySizeCache = {};
+	stats.chunks = stats.chunks || [];
 	stats.chunks.forEach(function(chunk) {
 		mapChunks[chunk.id] = chunk;
 		chunk.children = [];
 	});
 	stats.modules.forEach(function(module) {
+		module.reasons = module.reasons || [];
 		module.reasons.forEach(function(reason) {
 			var m = mapModulesIdent["$"+reason.moduleIdentifier];
 			if(!m) return;
@@ -116,7 +119,15 @@ function load(stats) {
 	ga('set', 'dimension3', categorize(stats.assets.length)  + "");
 	ga('set', 'dimension4', categorize(stats.time)           + "");
 }
-exports.load = load;
+
+exports.load = function (stats) {
+	var isMultiCompile = !stats.assets && !stats.modules && stats.children && stats.children.length > 1;
+	if (isMultiCompile) {
+		exports.loadPage("select", stats);
+	} else {
+		load(stats);
+  }
+}
 
 function categorize(number) {
 	if(number <= 0) return 0;

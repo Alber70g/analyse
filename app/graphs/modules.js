@@ -90,7 +90,7 @@ var s = new sigma({
 	settings: {
 		edgeColor: "target",
 		maxNodeSize: 15,
-		minNodeSize: 1,
+		minNodeSize: 2,
 		maxEdgeSize: 2,
         minEdgeSize: 0.05,
 
