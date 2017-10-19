@@ -33,7 +33,7 @@ app.stats.modules.forEach(function(module, idx) {
 		moduleId: module.id,
 		module: module,
 		type: "webpack",
-		size: module.size + 1,
+		size: module.recursiveSize,
 		label: "[" + module.id + "] " + module.name,
 		shortLabel: "" + module.id,
 		x: Math.cos(idx / moduleCount * Math.PI * 2) * Math.sqrt(uniqueReasons.length + 1) * Math.sqrt(moduleCount),
@@ -89,10 +89,11 @@ var s = new sigma({
 	},
 	settings: {
 		edgeColor: "target",
-		maxNodeSize: 4,
-		minNodeSize: 4,
+		maxNodeSize: 15,
+		minNodeSize: 1,
 		maxEdgeSize: 2,
-		minEdgeSize: 0.05
+        minEdgeSize: 0.05,
+
 	}
 });
 

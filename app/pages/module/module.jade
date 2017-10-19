@@ -89,6 +89,7 @@
 						th(colspan=2) module
 						th user request
 						th location
+						th recursiveSize
 				tbody
 					each dependency in module.dependencies
 						tr
@@ -105,6 +106,7 @@
 							td
 								if dependency.loc
 									code= dependency.loc
+							td= require("../../formatSize")(dependency.recursiveSize)
 	.row
 		.col-md-12
 			pre: code= module.source

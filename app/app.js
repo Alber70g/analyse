@@ -35,7 +35,7 @@ function load(stats) {
 				moduleUid: module.uid,
 				module: module.name,
 				userRequest: reason.userRequest,
-				loc: reason.loc
+                loc: reason.loc,
 			});
 		});
 		module.issuerUid = mapModulesIdent["$"+module.issuer] && mapModulesIdent["$"+module.issuer].uid;
@@ -96,7 +96,14 @@ function load(stats) {
 		a = a.normalizedName;
 		b = b.normalizedName;
 		return a < b ? -1 : 1;
-	});
+    });
+
+    Object.keys(mapModules).forEach((moduleKey) => {
+        mapModules[moduleKey].dependencies.forEach((dep) => {
+            dep.recursiveSize = mapModules[dep.moduleId].recursiveSize;
+        })
+    })
+
 	exports.stats = stats;
 	exports.mapChunks = mapChunks;
 	exports.mapModules = mapModules;
@@ -133,7 +140,7 @@ function recursiveSize(m, moduleMap, dependencySizeCache) {
 	} else {
 		depSize = calculateDependencySize(m, {}, moduleMap);
 		dependencySizeCache[m.uid] = depSize;
-	}
+    }
 	return m.size + depSize;
 }
 
