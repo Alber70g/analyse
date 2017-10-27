@@ -157,6 +157,10 @@ function recursiveSize(m, moduleMap, dependencySizeCache) {
 
 function calculateDependencySize(m, traversed, moduleMap) {
 	return m.dependencies.reduce(function (depSize, dep) {
+    const excludeFromRecursiveSize = ['./bower_components/polymer/polymer.html'];
+    if (excludeFromRecursiveSize.find(x => x === dep.module)) {
+      return 0;
+    }
 		var depMod = moduleMap[dep.moduleId];
 		if (!traversed[dep.moduleUid]) {
 			// Mark this module as already included in the calculation
